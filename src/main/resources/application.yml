@@ -18,6 +18,12 @@ spring:
       maximum-pool-size: 15 #hiakri线程池中的最大线程数
       minimum-idle: 5 #线程池中的最小空闲线程数
       connection-timeout: 30000 #连接超时时间(单位:毫秒)
+  mail: #spring mail导入
+    host: smtp.163.com #email服务器地址
+    port: 465 #email端口
+    username: 18825612545@163.com #邮件账号
+    password: mm12345678 #邮件密码
+    protocol: smtps #邮件协议
 
 #mybaits的配置
 mybatis:
@@ -27,3 +33,7 @@ mybatis:
     use-generated-keys: true #启用对自增长的键的支持
     map-underscore-to-camel-case: true #下划线与驼峰格式的自动转换设置
 
+
+community:
+  path:
+    domain: http://localhost:8848

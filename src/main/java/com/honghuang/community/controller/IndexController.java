@@ -25,6 +25,11 @@ public class IndexController {
     private UserService userService;
 
     @GetMapping("/")
+    public String getIndex(Model model, Page page){
+        return getIndexPage(model,page);
+    }
+
+    @GetMapping("/index")
     public String getIndexPage(Model model, Page page){
          /*方法调用之前,SpringMVC会自动实例化Model和Page,并将Page注入到Model
          所以,在thymeleaf可以直接访问Page对象中的数据*/
@@ -42,7 +47,7 @@ public class IndexController {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
-        return "/index";
+        return "index";
     }
 
 }
