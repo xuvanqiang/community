@@ -1,8 +1,10 @@
 package com.honghuang.community;
 
 import com.honghuang.community.dao.DiscussPostMapper;
+import com.honghuang.community.dao.LoginTicketMapper;
 import com.honghuang.community.dao.UserMapper;
 import com.honghuang.community.entity.DiscussPost;
+import com.honghuang.community.entity.LoginTicket;
 import com.honghuang.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class MapperTest1 {
 
     @Autowired
     private DiscussPostMapper discussPostMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Test
     public void testSelectUser(){
@@ -73,5 +78,30 @@ public class MapperTest1 {
         }
         System.out.println(discussPostMapper.selectDiscussPostRows(0));
     }
+
+    /**
+     * 测试loginTicket添加
+     */
+    @Test
+    public void testLoginTicket() {
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(101);
+        loginTicket.setTicket("abc");
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 10 * 60 * 1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+
+    /**
+     * 测试loginTicket查询更改
+     */
+    @Test
+    public void testLoginTicket2(){
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
+        loginTicketMapper.updateStatus(loginTicket.getTicket(),1);
+        System.out.println(loginTicket);
+    }
+
 
 }

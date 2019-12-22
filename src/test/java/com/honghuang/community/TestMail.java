@@ -8,6 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Date;
+
 @SpringBootTest
 @ContextConfiguration(classes = CommunityApplication.class)
 public class TestMail {
@@ -30,6 +32,11 @@ public class TestMail {
         String content = templateEngine.process("/mail/mail-html-test", context);
         System.out.println(content);
         mailClient.sendMail("1297386632@qq.com","HTML",content);
+    }
+
+    @Test
+    public void testTime() {
+        System.out.println(new Date(System.currentTimeMillis() + 24*30*3600*1000L));
     }
     
 }
