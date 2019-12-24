@@ -180,4 +180,8 @@ public class UserServiceImpl implements UserService, CommunityConstant {
     }
 
 
+    public int updateHeaderUrl(int userId,String headerUrd){
+        return userMapper.updateHeader(userId,headerUrd);
+    }
+
 }

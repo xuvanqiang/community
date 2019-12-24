@@ -16,4 +16,17 @@ public interface DiscussPostMapper {
      *如果只有一个参数,并且会用到映射xml文件的<if></if>标签中,则必须要取别名,否则报错
      */
     int selectDiscussPostRows(@Param("userId") int userId);
+
+    /**
+     * 发布帖子
+     *
+     */
+    int insertDiscussPost(DiscussPost post);
+
+    /**
+     * 根据帖子id查询帖子详情
+     * @param id
+     * @return
+     */
+    DiscussPost selectDiscussPostById(int id);
 }

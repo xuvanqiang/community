@@ -17,4 +17,6 @@ public interface UserService {
     void logout(String ticket);
 
     LoginTicket findLoginTicket(String ticket);
+
+    int updateHeaderUrl(int userId,String headerUrd);
 }
