@@ -1,11 +1,9 @@
 package com.honghuang.community;
 
-import com.honghuang.community.dao.CommentMapper;
-import com.honghuang.community.dao.DiscussPostMapper;
-import com.honghuang.community.dao.LoginTicketMapper;
-import com.honghuang.community.dao.UserMapper;
+import com.honghuang.community.dao.*;
 import com.honghuang.community.entity.DiscussPost;
 import com.honghuang.community.entity.LoginTicket;
+import com.honghuang.community.entity.Message;
 import com.honghuang.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class MapperTest1 {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -116,5 +117,27 @@ public class MapperTest1 {
         System.out.println("查询帖子id为233的评论总记录数:"+commentMapper.selectCommentsCountByEntity(1,233));
     }
 
+    @Test
+    public void testSelectLetters() {
+        List<Message> list = messageMapper.selectConversations(111, 0, 20);
+        for (Message message : list) {
+            System.out.println(message);
+        }
+
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        list = messageMapper.selectLetters("111_112", 0, 10);
+        for (Message message : list) {
+            System.out.println(message);
+        }
+
+        count = messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+
+        count = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println(count);
+
+    }
 
 }
