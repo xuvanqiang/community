@@ -1,5 +1,6 @@
 package com.honghuang.community;
 
+import com.honghuang.community.dao.CommentMapper;
 import com.honghuang.community.dao.DiscussPostMapper;
 import com.honghuang.community.dao.LoginTicketMapper;
 import com.honghuang.community.dao.UserMapper;
@@ -26,6 +27,9 @@ public class MapperTest1 {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Test
     public void testSelectUser(){
@@ -76,7 +80,7 @@ public class MapperTest1 {
         for (DiscussPost discussPost : discussPosts) {
             System.out.println(discussPost);
         }
-        System.out.println(discussPostMapper.selectDiscussPostRows(0));
+//        System.out.println(discussPostMapper.selectDiscussPostRows(0));
     }
 
     /**
@@ -101,6 +105,15 @@ public class MapperTest1 {
         System.out.println(loginTicket);
         loginTicketMapper.updateStatus(loginTicket.getTicket(),1);
         System.out.println(loginTicket);
+    }
+
+    /**
+     * 测试一下commentMapper的可用性
+     */
+    @Test
+    public void testCommentMapper() {
+        System.out.println("查询帖子id为233的1-10评论:"+commentMapper.selectCommentsByEntity(1,233,0,10));
+        System.out.println("查询帖子id为233的评论总记录数:"+commentMapper.selectCommentsCountByEntity(1,233));
     }
 
 

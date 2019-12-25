@@ -6,7 +6,6 @@ import com.honghuang.community.service.DiscussPostService;
 import com.honghuang.community.util.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
@@ -51,6 +50,11 @@ public class DiscussPostServiceImpl implements DiscussPostService {
     @Override
     public DiscussPost findDiscussPostById(int id) {
         return discussPostMapper.selectDiscussPostById(id);
+    }
+
+    @Override
+    public int updateCommentCount(int id, int commentCount) {
+        return discussPostMapper.updateCommentCount(id,commentCount);
     }
 
 
