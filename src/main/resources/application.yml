@@ -24,6 +24,11 @@ spring:
     username: 18825612545@163.com #邮件账号
     password: mm12345678 #邮件密码
     protocol: smtps #邮件协议
+  #redis配置
+  redis:
+    database: 0 #redis的数仓索引0~15
+    host: localhost
+    port: 6379
 
 #mybaits的配置
 mybatis:
@@ -38,3 +43,5 @@ community:
   path:
     domain: http://localhost:8848
     upload: D:/work/data/upload
+
+

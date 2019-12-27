@@ -2,6 +2,7 @@ package com.honghuang.community.controller;
 
 import com.honghuang.community.annotation.LoginRequired;
 import com.honghuang.community.entity.User;
+import com.honghuang.community.service.LikeService;
 import com.honghuang.community.service.UserService;
 import com.honghuang.community.util.CommunityUtil;
 import com.honghuang.community.util.HostHolder;
@@ -35,6 +36,9 @@ public class UserController {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
 
     @Value("${community.path.domain}")
     private String domain;
@@ -108,5 +112,22 @@ public class UserController {
         } catch (IOException e) {
             logger.error("读取头像失败:"+ e.getMessage());
         }
+    }
+
+    //个人主页
+    @GetMapping("/profile/{userId}")
+    public String getProfilePage(@PathVariable("userId")int userId,Model model){
+        User user = userService.findById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在!");
+        }
+
+        //用户
+        model.addAttribute("user",user);
+        //点赞数量
+        long likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount",likeCount);
+
+        return "/site/profile";
     }
 }
