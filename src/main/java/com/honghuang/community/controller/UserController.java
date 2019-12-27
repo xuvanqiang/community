@@ -2,8 +2,10 @@ package com.honghuang.community.controller;
 
 import com.honghuang.community.annotation.LoginRequired;
 import com.honghuang.community.entity.User;
+import com.honghuang.community.service.FollowService;
 import com.honghuang.community.service.LikeService;
 import com.honghuang.community.service.UserService;
+import com.honghuang.community.util.CommunityConstant;
 import com.honghuang.community.util.CommunityUtil;
 import com.honghuang.community.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +29,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements CommunityConstant {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -39,6 +41,9 @@ public class UserController {
 
     @Autowired
     private LikeService likeService;
+
+    @Autowired
+    private FollowService followService;
 
     @Value("${community.path.domain}")
     private String domain;
@@ -127,6 +132,20 @@ public class UserController {
         //点赞数量
         long likeCount = likeService.findUserLikeCount(userId);
         model.addAttribute("likeCount",likeCount);
+
+        //关注数量
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount",followeeCount);
+        //粉丝数量
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount",followerCount);
+        //是否已关注
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null){
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed",hasFollowed);
+        System.out.println(followeeCount+":"+followerCount+":"+hasFollowed);
 
         return "/site/profile";
     }
