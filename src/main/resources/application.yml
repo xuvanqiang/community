@@ -29,6 +29,13 @@ spring:
     database: 0 #redis的数仓索引0~15
     host: localhost
     port: 6379
+  #消息队列kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
 
 #mybaits的配置
 mybatis:
@@ -38,10 +45,9 @@ mybatis:
     use-generated-keys: true #启用对自增长的键的支持
     map-underscore-to-camel-case: true #下划线与驼峰格式的自动转换设置
 
-
+#路径
 community:
   path:
     domain: http://localhost:8848
     upload: D:/work/data/upload
-
 

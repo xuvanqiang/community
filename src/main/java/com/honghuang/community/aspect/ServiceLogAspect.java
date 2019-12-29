@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -38,6 +37,9 @@ public class ServiceLogAspect {
         //从spring提供的request上下文中提取出attributes(这里强转成其子类:因为功能多一些)
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         //通过attributes获取request内容
+        if (attributes == null) {
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         //通过request获取ip
         String ip = request.getRemoteHost();

@@ -25,4 +25,16 @@ public interface MessageService {
 
     //更改私信状态(未读-->已读)
     int readMessage(List<Integer> ids);
+
+    //查询某个主题下的最新通知
+    Message findLastNotice(int userId,String topic);
+
+    //查询某主题的通知数量
+    int findNoticeCount(int userId,String topic);
+
+    //查询未读的通知数量
+    int findNoticeUnreadCount(int userId,String topic);
+
+    //查询某个主题所包含的通知列表
+    List<Message> findtNotice(int userId,String topic,int offset,int limit);
 }
