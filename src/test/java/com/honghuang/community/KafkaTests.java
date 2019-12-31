@@ -18,8 +18,8 @@ public class KafkaTests {
 
     @Test
     public void testKafka() {
-        kafkaProduct.sendMessage("test","你好");
-        kafkaProduct.sendMessage("test","我是第二条信息");
+        kafkaProduct.sendMessage("publish","你好");
+        kafkaProduct.sendMessage("publish","我是第二条信息");
         try {
             Thread.sleep(1000*5);
         } catch (InterruptedException e) {
@@ -43,11 +43,11 @@ class KafkaProduct{
 
 
 //消息消费者(自动生效,自动调用listener)
-@Component
+/*@Component
 class KafkaConsumer{
 
     @KafkaListener(topics = {"test"})
     public void handleMessage(ConsumerRecord record) {
         System.out.println(record.value());
     }
-}
+}*/

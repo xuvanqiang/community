@@ -56,6 +56,16 @@ public class CommentController implements CommunityConstant {
 
         eventProducer.fireEvent(event);
 
+        //帖子表中只有评论数字段,回复不算进评论(对评论的评论)字段
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            //评论使帖子变更数据:触发更改帖事件
+            event = new Event()
+                    .setTopic(TOPIC_PUBLISH)
+                    .setUserId(comment.getUserId())
+                    .setEntityType(ENTITY_TYPE_POST)
+                    .setEntityId(comment.getEntityId());
+            eventProducer.fireEvent(event);
+        }
 
         return "redirect:/discuss_post/detail/" + discussPostId;//重定向到本帖子内
     }

@@ -1,8 +1,11 @@
 package com.honghuang.community.event;
 
 import com.alibaba.fastjson.JSONObject;
+import com.honghuang.community.entity.DiscussPost;
 import com.honghuang.community.entity.Event;
 import com.honghuang.community.entity.Message;
+import com.honghuang.community.service.DiscussPostService;
+import com.honghuang.community.service.ElasticsearchService;
 import com.honghuang.community.service.MessageService;
 import com.honghuang.community.util.CommunityConstant;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -23,6 +26,12 @@ public class EventConsumer implements CommunityConstant {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private DiscussPostService discussPostService;
+
+    @Autowired
+    private ElasticsearchService elasticsearchService;
 
     @KafkaListener(topics = {TOPIC_COMMENT,TOPIC_LIKE,TOPIC_FOLLOW})
     public void handleCommentMessage(ConsumerRecord record) {
@@ -58,6 +67,26 @@ public class EventConsumer implements CommunityConstant {
 
 
         messageService.addMessage(message);
+    }
+
+    //触发发帖或帖子变更事件
+    @KafkaListener(topics = {TOPIC_PUBLISH})
+    public void handlePublishMessage(ConsumerRecord record) {
+        if (record == null || record.value() == null) {
+            logger.error("消息内容为空!");
+            return;
+        }
+
+        Event event = JSONObject.parseObject(record.value().toString(), Event.class);
+        if (event == null) {
+            logger.error("消息格式错误!");
+            return;
+        }
+
+        DiscussPost post = discussPostService.findDiscussPostById(event.getEntityId());
+        //保存信息到es服务器
+        elasticsearchService.saveDiscussPost(post);
+
     }
 }
 
