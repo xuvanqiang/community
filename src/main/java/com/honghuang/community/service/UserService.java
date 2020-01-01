@@ -2,7 +2,9 @@ package com.honghuang.community.service;
 
 import com.honghuang.community.entity.LoginTicket;
 import com.honghuang.community.entity.User;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Map;
 
 public interface UserService {
@@ -21,4 +23,6 @@ public interface UserService {
     int updateHeaderUrl(int userId,String headerUrd);
 
     User findByUsername(String username);
+
+    Collection<? extends GrantedAuthority> getAuthorities(int userId);
 }
