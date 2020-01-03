@@ -67,6 +67,11 @@ public interface CommunityConstant {
     String TOPIC_DELETE = "delete";
 
     /**
+     * 主题:分享
+     */
+    String TOPIC_SHARE = "share";
+
+    /**
      * 用户:系统
      */
     int SYSTEM_USER_ID = 1;
@@ -85,4 +90,9 @@ public interface CommunityConstant {
      * 权限:普通用户
      */
     String AUTHORITY_ADMIN = "admin";
+
+    /**
+     * 分数计数部件:2018-01-01 00:00:00的毫秒数
+     */
+    long SCORE_ITEM = 1514764800000L;
 }

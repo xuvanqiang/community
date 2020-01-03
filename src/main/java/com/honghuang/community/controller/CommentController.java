@@ -8,7 +8,9 @@ import com.honghuang.community.service.CommentService;
 import com.honghuang.community.service.DiscussPostService;
 import com.honghuang.community.util.CommunityConstant;
 import com.honghuang.community.util.HostHolder;
+import com.honghuang.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +34,11 @@ public class CommentController implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @PostMapping("/add/{discussPostId}")
-    public String addComment(@PathVariable("discussPostId") String discussPostId, Comment comment) {
+    public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment) {
         comment.setUserId(hostHolder.getUser().getId());
         comment.setStatus(0);
         comment.setCreateTime(new Date());
@@ -53,7 +58,6 @@ public class CommentController implements CommunityConstant {
             Comment target = commentService.findCommentById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         }
-
         eventProducer.fireEvent(event);
 
         //帖子表中只有评论数字段,回复不算进评论(对评论的评论)字段
@@ -63,8 +67,12 @@ public class CommentController implements CommunityConstant {
                     .setTopic(TOPIC_PUBLISH)
                     .setUserId(comment.getUserId())
                     .setEntityType(ENTITY_TYPE_POST)
-                    .setEntityId(comment.getEntityId());
+                    .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
+
+            //计算帖子分数
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(redisKey,discussPostId);
         }
 
         return "redirect:/discuss_post/detail/" + discussPostId;//重定向到本帖子内

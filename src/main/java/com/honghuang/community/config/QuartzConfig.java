@@ -1,8 +1,10 @@
 package com.honghuang.community.config;
 
 import com.honghuang.community.quartz.ExampleJob;
+import com.honghuang.community.quartz.PostScoreRefreshJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
@@ -40,6 +42,30 @@ public class QuartzConfig {
         bean.setName("exampleTrigger");
         bean.setGroup("exampleTriggerGroup");
         bean.setRepeatInterval(3000);//时间间隔
+        bean.setJobDataMap(new JobDataMap());
+        return bean;
+    }
+
+    //刷新帖子分数任务
+    @Bean
+    public JobDetailFactoryBean postScoreRefreshJobDetail(){
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(PostScoreRefreshJob.class);//事件
+        bean.setName("postScoreRefreshJob");
+        bean.setGroup("communityJobGroup");
+        bean.setDurability(true);//任务是否持久保存
+        bean.setRequestsRecovery(true);//任务是否可恢复
+        return bean;
+    }
+
+    //刷新帖子任务触发器
+    @Bean
+    public SimpleTriggerFactoryBean postScoreRefreshTrigger(JobDetail postScoreRefreshJobDetail){
+        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
+        bean.setJobDetail(postScoreRefreshJobDetail);
+        bean.setName("postScoreRefreshTrigger");
+        bean.setGroup("communityTriggerGroup");
+        bean.setRepeatInterval(1000 * 60 * 5);//时间间隔
         bean.setJobDataMap(new JobDataMap());
         return bean;
     }

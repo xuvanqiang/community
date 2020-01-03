@@ -5,7 +5,7 @@ import com.honghuang.community.entity.DiscussPost;
 import java.util.List;
 
 public interface DiscussPostService {
-    List<DiscussPost> findDiscussPosts(int userId, int offset, int limit);
+    List<DiscussPost> findDiscussPosts(int userId, int offset, int limit,int orderMode);
 
     int findDiscussPostRows(int userId);
 
@@ -18,4 +18,6 @@ public interface DiscussPostService {
     int updateDiscussType(int id,int type);
 
     int updateDiscussStatus(int id,int status);
+
+    int updateScore(int id , double score);
 }

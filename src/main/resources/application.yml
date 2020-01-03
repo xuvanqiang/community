@@ -83,3 +83,8 @@ community:
     domain: http://localhost:8848
     upload: D:/work/data/upload
 
+#wk
+wk:
+  image:
+    command: D:/javaapps/wkhtmltopdf/bin/wkhtmltoimage
+    storage: D:/work/data/wk-images

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface DiscussPostMapper {
-    List<DiscussPost> selectDiscussPosts(int userId,int offset,int limit);
+    List<DiscussPost> selectDiscussPosts(int userId,int offset,int limit, int orderMode);
 
     /**
      *
@@ -44,4 +44,9 @@ public interface DiscussPostMapper {
      * 更改帖子状态:用于加精或删除帖子(0-正常; 1-精华; 2-删除)
      */
     int updateDiscussPostStatus(int id,int status);
+
+    /**
+     * 更新帖子分数
+     */
+    int updateScore(int id,double score);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,16 +32,18 @@ public class IndexController implements CommunityConstant {
 
     @GetMapping("/")
     public String getIndex(Model model, Page page){
-        return getIndexPage(model,page);
+        return getIndexPage(model,page,0);
     }
 
     @GetMapping("/index")
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page,
+                               @RequestParam(name = "orderMode",defaultValue = "0")int orderMode ){
          /*方法调用之前,SpringMVC会自动实例化Model和Page,并将Page注入到Model
          所以,在thymeleaf可以直接访问Page对象中的数据*/
         page.setRows(discussPostService.findDiscussPostRows(0));
-        page.setPath("/index");
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        page.setPath("/index?orderMode="+orderMode);
+        List<DiscussPost> list = discussPostService.findDiscussPosts(
+                0, page.getOffset(), page.getLimit(),orderMode);
         ArrayList<Map<String,Object>> discussPosts = new ArrayList<>();
         if (list != null) {
             for (DiscussPost post : list) {
@@ -54,6 +57,7 @@ public class IndexController implements CommunityConstant {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("orderMode",orderMode);
         return "index";
     }
 
