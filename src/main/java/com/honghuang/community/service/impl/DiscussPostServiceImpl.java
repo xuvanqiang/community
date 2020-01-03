@@ -58,4 +58,12 @@ public class DiscussPostServiceImpl implements DiscussPostService {
     }
 
 
+    public int updateDiscussType(int id,int type){
+        return discussPostMapper.updateDiscussPostType(id,type);
+    }
+
+    public int updateDiscussStatus(int id,int status){
+        return discussPostMapper.updateDiscussPostStatus(id,status);
+    }
+
 }

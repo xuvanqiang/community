@@ -14,4 +14,8 @@ public interface DiscussPostService {
     DiscussPost findDiscussPostById(int id);
 
     int updateCommentCount(int id,int commentCount);
+
+    int updateDiscussType(int id,int type);
+
+    int updateDiscussStatus(int id,int status);
 }

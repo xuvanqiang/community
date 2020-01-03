@@ -41,6 +41,32 @@ spring:
     elasticsearch:
       cluster-name: honghuang
       cluster-nodes: localhost:9300 #9300端口是elasticsearch使用tcp协议的端口
+  #quartz配置
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 5
+            class: org.quartz.simpl.SimpleThreadPool
+          jobStore:
+            isClustered: true
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          scheduler:
+            instanceId: AUTO
+#spring线程池配置
+#  task:
+#    execution:
+#      pool:
+#        core-size=5:
+#        queue-capacity=100:
+#        max-size: 15
+#    scheduling:
+#      pool:
+#        size: 5
 
 
 #mybaits的配置

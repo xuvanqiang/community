@@ -34,4 +34,14 @@ public interface DiscussPostMapper {
      * 更新帖子品论数量
      */
     int updateCommentCount(int id,int commentCount);
+
+    /**
+     * 更改帖子类型:用于置顶帖子(0-普通; 1-置顶)
+     */
+    int updateDiscussPostType(int id,int type);
+
+    /**
+     * 更改帖子状态:用于加精或删除帖子(0-正常; 1-精华; 2-删除)
+     */
+    int updateDiscussPostStatus(int id,int status);
 }
