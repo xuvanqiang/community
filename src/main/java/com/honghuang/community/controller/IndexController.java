@@ -32,7 +32,7 @@ public class IndexController implements CommunityConstant {
 
     @GetMapping("/")
     public String getIndex(Model model, Page page){
-        return getIndexPage(model,page,0);
+        return "forward:/index";
     }
 
     @GetMapping("/index")

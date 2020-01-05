@@ -20,4 +20,5 @@ public interface DiscussPostService {
     int updateDiscussStatus(int id,int status);
 
     int updateScore(int id , double score);
+
 }

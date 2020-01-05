@@ -10,7 +10,7 @@ spring:
   datasource: #DataSourceProperties
     driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动全限定类名
     #datasource的URL后面的参数. CharacterEncoding为编码格式, useSSL为安全连接是否启用, serverTimeZone为时区设定:该项不设定会报错
-    url: jdbc:mysql:///community?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+    url: jdbc:mysql:///community?allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
     username: root #数据源的登录名
     password: root #数据源的登录密码
     type: com.zaxxer.hikari.HikariDataSource #spring内置的一个线程池(在spring中内置的线程池中性能最高)
@@ -88,3 +88,31 @@ wk:
   image:
     command: D:/javaapps/wkhtmltopdf/bin/wkhtmltoimage
     storage: D:/work/data/wk-images
+
+
+#caffeine
+caffeine:
+  post:
+    max-size: 15 #缓存15页帖子数据
+    expire-seconds: 180 #缓存超时时间180s
+
+# aliyun
+aliyun:
+  bucket:
+    header:
+      name: forum-header-images
+      url: http://forum-header-images.oss-cn-hongkong.aliyuncs.com
+    share:
+      name: forum-share-images
+      url: http://forum-share-images.oss-cn-hongkong.aliyuncs.com
+  key:
+    access: "<yourAccessKeyId>"
+    secret: "<yourAccessKeySecret>"
+
+
+#actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

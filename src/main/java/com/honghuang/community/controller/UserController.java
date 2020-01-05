@@ -54,12 +54,29 @@ public class UserController implements CommunityConstant {
     @Value("${community.path.upload}")
     private String uploadPath;
 
+    @Value("${aliyun.key.access}")
+    private String accessKey;
+
+    @Value("${aliyun.key.secret}")
+    private String secretKey;
+
+    @Value("${aliyun.bucket.header.name}")
+    private String headerBucketName;
+
+    @Value("${aliyun.bucket.header.url}")
+    private String headerBucketUrl;
+
     @LoginRequired
     @GetMapping("/setting")
     public String getSetting() {
+        //上传文件名称
+        String fileName = CommunityUtil.generateUUID();
+        //设置相应消息
+        //生成凭证
         return "/site/setting";
     }
 
+    //上传到本地服务器
     @LoginRequired
     @PostMapping("/upload")
     public String uploadHeader(MultipartFile headerImage, Model model){
@@ -99,6 +116,7 @@ public class UserController implements CommunityConstant {
         return "redirect:/index";
     }
 
+    //从本地服务器中获取
     @GetMapping("/header/{fileName}")
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response){
         //文件的服务存放路径
@@ -108,7 +126,7 @@ public class UserController implements CommunityConstant {
         //响应图片
         response.setContentType("image/"+suffix);   //设置响应头
         try (ServletOutputStream os = response.getOutputStream();
-             FileInputStream fis = new FileInputStream(fileName);){
+             FileInputStream fis = new FileInputStream(fileName)){
             byte[] buffer = new byte[1024];
             int i = 0;
             while ((i = fis.read(buffer))!=-1){
