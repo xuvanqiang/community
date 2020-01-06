@@ -18,6 +18,6 @@ public class LoggerTests {
         logger.debug("debug log");
         logger.info("info log");
         logger.warn("warn log");
-        logger.error("error log");
+        logger.error("errorbat log");
     }
 }

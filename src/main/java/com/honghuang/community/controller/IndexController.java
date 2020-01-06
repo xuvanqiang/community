@@ -63,12 +63,12 @@ public class IndexController implements CommunityConstant {
 
     @GetMapping("/error")
     public String getErrorPage(){
-        return "/error/500";
+        return "/errorbat/500";
     }
 
     @GetMapping(path = "/denied")
     public String getDeniedPage() {
-        return "/error/404";
+        return "/errorbat/404";
     }
 
 }
